@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutual Fund Day-Change Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Mutual Fund Day-Change Calculator</h1>
+    </header>
+    <main>
+        <div class="grid-container">
+            <div class="card">
+                <button class ="cardButton" id="aditya" type="submit" value="0">
+                    <h2>Aditya Sunlife</h2>
+                    <p>Aditya Birla Sun Life PSU Equity Fund Direct Growth</p>
+                    <div id="output">Click</div>
+                    <div id="loading">
+                        <div class="loader"></div>
+                    </div>
+                </button>       
+            </div>
+            <div class="card">
+                <button class ="cardButton" id="quant" type="submit" value="1">
+                    <h2>Quant</h2>
+                    <p>Quant Small Cap Fund Direct Plan Growth</p>
+                    <div id="output">Click</div>
+                    <div id="loading">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="card">
+                <button class ="cardButton" id="nippon" type="submit"value="2">
+                    <h2>Nippon</h2>
+                    <p>Nippon India Small Cap Fund Direct Growth</p>
+                    <div id="output">Click</div>
+                    <div id="loading">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="card">
+                <button class ="cardButton" id="quant_infra" type="submit" value="3">
+                    <h2>Quant Infra</h2>
+                    <p>Quant Infrastructure Fund Direct Growth</p>
+                    <div id="output">Click</div>
+                    <div id="loading">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="card">
+                <button class ="cardButton" id="icici_fof"type="submit" value="4">
+                    <h2>ICICI Bharat</h2>
+                    <p>ICICI Prudential BHARAT 22 FOF Direct Growth</p>
+                    <div id="output">Click</div>
+                    <div id="loading">
+                        <div class="loader"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="card">
+                <button class ="cardButton" id="icici" type="submit" value="5">
+                    <h2>ICICI</h2>
+                    <p>ICICI Prudential Smallcap Fund Direct Plan Growth</p>
+                    
+                    <div id="output">Click</div>
+                    <div id="loading">
+                        <p>Loading...</p>
+                        <div class="loader"></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Designed by Adarsh</p>
+    </footer>
+    <script>
+        $(document).ready(function() {
+            $('.cardButton').click(function() {
+                console.log("Started")
+                var button = $(this);
+                var loadingDiv = button.find('#loading');
+                var outputDiv = button.find('#output')
+                loadingDiv.show();
+                outputDiv.text("Loading ...");
+                var inputValue = button.val();
+                console.log((inputValue))
+                $.ajax({
+                    url: '/calculate',
+                    type: 'POST',
+                    data: { value: inputValue },
+                    success: function(response) {
+                        loadingDiv.hide();
+                        outputDiv.text(response.output);
+                        console.log("Finished")
+                    },
+                    error: function(xhr, status, error) {
+                        loadingDiv.hide();
+                        outputDiv.text("Error , Refresh the Page or try again after loading of other functions is over.");
+                        alert('Error Occured, Please refresh the page.\n Sorry for inconvinience we are working to solve the issues.\n Refreain from selecting multiple funds simultaneously.');
+                    }
+                });
+                
+            });
+        });
+    </script>
+</body>
+</html>
+
